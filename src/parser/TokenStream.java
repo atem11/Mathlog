@@ -1,17 +1,26 @@
 package parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TokenStream {
-    private List<Token> operations;
+    private List<Token> operations = new ArrayList<>();
     private int index = 0;
+
+    public void reset() {
+        index = 0;
+    }
 
     public Token next() {
         return operations.get(index++);
     }
 
-    public Token prev() {
-        return operations.get(--index);
+    public void prev() {
+        --index;
+    }
+
+    public int size() {
+        return operations.size();
     }
 
     public void add(Token t) {

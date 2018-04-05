@@ -1,20 +1,21 @@
 package parser;
 
-import operations.Expression;
-
 public class Token {
-    private enum tokens {
+    enum tokens {
         L_BRACE, R_BRACE, VARIABLE,
         CONJUNCTION, DISJUNCTION,
-        IMPLICATION, NEGATION
+        IMPLICATION, NEGATION, END
     }
 
     private tokens token;
-    private Expression exp;
+    private String name;
 
-    public Token(String s, Expression e) {
-        exp = e;
+    Token(String s, String e) {
+        name = e;
         switch (s) {
+            case "#":
+                token = tokens.END;
+                break;
             case "(":
                 token = tokens.L_BRACE;
                 break;
@@ -40,5 +41,9 @@ public class Token {
 
     public tokens get() {
         return token;
+    }
+
+    public String getName() {
+        return name;
     }
 }

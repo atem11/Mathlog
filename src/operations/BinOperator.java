@@ -21,7 +21,7 @@ public abstract class BinOperator extends Expression {
 
     @Override
     public String toTree() {
-        return "(" + getSymbol() + "," + left.toTree() + right.toTree() +")";
+        return "(" + getSymbol() + "," + left.toTree() + "," + right.toTree() +")";
     }
 
     @Override

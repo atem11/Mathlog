@@ -1,17 +1,20 @@
 SOURCES = $(shell find src -type f -name "*.java")
 CLASSES = $(patsubst src/%.java,out/%.class,$(SOURCES))
-MAINCLASS = Main
+MAINCLASS = Hw0
 
 all: $(CLASSES)
 
 run:
-	java -cp out:${MAINCLASS}
+	java -classpath out Hw0
 
 pack:
 	zip hw0.zip -r Makefile src
 
-out/%.class: src/%.java out
-	javac -cp src: $< -d out
+clean:
+	rm -rf out
+
+$(CLASSES): $(SOURCES) out
+	javac $(SOURCES) -d out
 
 out:
 	mkdir -p out
