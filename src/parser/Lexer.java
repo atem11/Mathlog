@@ -6,7 +6,7 @@ public class Lexer {
         TokenStream str = new TokenStream();
         StringBuilder name = new StringBuilder();
         for (int i = 0; i < s.length(); ++i) {
-            if (Character.isWhitespace(s.charAt(i)) || s.charAt(i) == '\t') {
+            if (Character.isWhitespace(s.charAt(i))) {
                 continue;
             }
             switch (s.charAt(i)) {

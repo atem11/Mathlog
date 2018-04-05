@@ -13,6 +13,11 @@ public class Variable extends Expression {
     }
 
     @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
     protected void addDescription(StringBuilder builder) {
         builder.append(name);
     }

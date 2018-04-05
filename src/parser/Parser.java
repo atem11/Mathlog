@@ -16,7 +16,7 @@ public class Parser {
             Token t = stream.next();
             switch (t.get()) {
                 case IMPLICATION:
-                    first =  new Implication(first, implication());
+                    first = new Implication(first, implication());
                     break;
                 default:
                     stream.prev();
@@ -63,7 +63,9 @@ public class Parser {
             case NEGATION:
                 return new Negation(atomix());
             case L_BRACE:
-                return implication();
+                Expression tmp = implication();
+                stream.next();
+                return tmp;
             default:
                 return null;
 

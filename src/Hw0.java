@@ -16,12 +16,17 @@ public class Hw0 {
         Path pathToInputFile = Paths.get("input.txt");
         BufferedReader reader = Files.newBufferedReader(pathToInputFile);
 
-        String line = reader.readLine();
+        StringBuilder all_line = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            all_line.append(line);
+        }
 
         Lexer lex = new Lexer();
-        TokenStream str = lex.lexer(line);
+        TokenStream str = lex.lexer(all_line.toString());
         Parser parser = new Parser();
-        Expression root = parser.parce(str);try (PrintWriter out = new PrintWriter(new File("output.txt"))) {
+        Expression root = parser.parce(str);
+        try (PrintWriter out = new PrintWriter(new File("output.txt"))) {
             out.println(root.toTree());
         }
         reader.close();
