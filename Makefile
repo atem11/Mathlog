@@ -5,7 +5,7 @@ MAINCLASS = Hw0
 all: $(CLASSES)
 
 run:
-	java -classpath out Hw0
+	java -classpath out $(MAINCLASS)
 
 pack:
 	zip hw0.zip -r Makefile src

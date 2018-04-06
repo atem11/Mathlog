@@ -5,8 +5,9 @@ import java.util.Objects;
 public abstract class BinOperator extends Expression {
     private Expression left;
     private Expression right;
+    private Integer hash = null;
 
-    public BinOperator(Expression l, Expression r) {
+    BinOperator(Expression l, Expression r) {
         left = l;
         right = r;
     }
@@ -50,5 +51,13 @@ public abstract class BinOperator extends Expression {
         builder.append(getSymbol());
         right.addDescription(builder);
         builder.append(")");
+    }
+
+    @Override
+    public int hashCode() {
+        if (hash != null) {
+            return hash;
+        }
+        return hash = Objects.hash(getSymbol(), left, right);
     }
 }

@@ -1,7 +1,10 @@
 package operations;
 
+import java.util.Objects;
+
 public class Negation extends Expression {
     private Expression negated;
+    private Integer hash = null;
 
     public Negation(Expression ex) {
         negated = ex;
@@ -37,5 +40,21 @@ public class Negation extends Expression {
     @Override
     public Expression[] getChildren() {
         return new Expression[]{negated};
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass() || o.hashCode() != hashCode()) return false;
+        Negation negation = (Negation) o;
+        return Objects.equals(negated, negation.negated);
+    }
+
+    @Override
+    public int hashCode() {
+        if (hash != null) {
+            return hash;
+        }
+        return hash = Objects.hash(getSymbol(), negated);
     }
 }
