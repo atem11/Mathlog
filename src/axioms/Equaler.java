@@ -29,7 +29,7 @@ public class Equaler {
         }
         Expression[] axiomChildren = fromAxiom.getChildren();
         Expression[] toCheckChildren = toCheck.getChildren();
-        for (int i = 0; i < axiomChildren.length; i++) {
+        for (int i = 0; i < fromAxiom.getChildrenCount(); i++) {
             if (!walkAndCheck(axiomChildren[i], toCheckChildren[i])) {
                 return false;
             }
