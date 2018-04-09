@@ -4,7 +4,6 @@ import operations.Expression;
 import operations.Implication;
 import parser.Lexer;
 import parser.Parser;
-import parser.TokenStream;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -50,7 +49,9 @@ public class HW1 {
     }
 
     public static void main(String[] args) throws IOException {
+        long startTime = System.currentTimeMillis();
         Path pathToInputFile = Paths.get("input.txt");
+        //Path pathToInputFile = Paths.get("/home/artem/Projects/Mathlog/17.in");
         BufferedReader reader = Files.newBufferedReader(pathToInputFile);
         String firstLine = reader.readLine().replace("|-", ",");
         String[] hypot = firstLine.split(",");
@@ -61,7 +62,7 @@ public class HW1 {
             if (myTrim(hypot[i]).isEmpty()) {
                 continue;
             }
-            Expression exp = parser.parce(lexer.lexer(hypot[i]));
+            Expression exp = parser.parse(lexer.lexer(hypot[i]));
             hypotises.put(exp, indHyp++);
         }
 
@@ -74,7 +75,7 @@ public class HW1 {
                     continue;
                 }
                 StringBuilder res = new StringBuilder();
-                Expression root = parser.parce(lexer.lexer(line));
+                Expression root = parser.parse(lexer.lexer(line));
                 res.append("(").append(indLine).append(") ").append(root.toString()).append(" ");
 
                 Integer hypNum;
@@ -121,5 +122,7 @@ public class HW1 {
             }
         }
         reader.close();
+        long endTime = System.currentTimeMillis();
+        //System.out.println(endTime - startTime);
     }
 }

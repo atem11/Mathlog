@@ -25,7 +25,7 @@ public class Hw0 {
         Lexer lex = new Lexer();
         TokenStream str = lex.lexer(all_line.toString());
         Parser parser = new Parser();
-        Expression root = parser.parce(str);
+        Expression root = parser.parse(str);
         try (PrintWriter out = new PrintWriter(new File("output.txt"))) {
             out.println(root.toTree());
         }

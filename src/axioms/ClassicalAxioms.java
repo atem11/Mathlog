@@ -26,7 +26,7 @@ public class ClassicalAxioms {
         Parser p = new Parser();
         Lexer l = new Lexer();
         for (int i = 1; i < 11; ++i) {
-            axioms[i] = p.parce(l.lexer(textOfAxioms[i]));
+            axioms[i] = p.parse(l.lexer(textOfAxioms[i]));
         }
     }
 }

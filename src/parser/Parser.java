@@ -5,7 +5,7 @@ import operations.*;
 public class Parser {
     private TokenStream stream;
 
-    public Expression parce(TokenStream str) {
+    public Expression parse(TokenStream str) {
         stream = str;
         return implication();
     }
