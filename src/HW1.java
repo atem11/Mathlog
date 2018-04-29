@@ -50,7 +50,8 @@ public class HW1 {
 
     public static void main(String[] args) throws IOException {
         long startTime = System.currentTimeMillis();
-        Path pathToInputFile = Paths.get("input.txt");
+        //Path pathToInputFile = Paths.get("input.txt");
+        Path pathToInputFile = Paths.get("output.txt");
         //Path pathToInputFile = Paths.get("/home/artem/Projects/Mathlog/17.in");
         BufferedReader reader = Files.newBufferedReader(pathToInputFile);
         String firstLine = reader.readLine().replace("|-", ",");
@@ -67,7 +68,8 @@ public class HW1 {
         }
 
         int indLine = 1;
-        try (PrintWriter out = new PrintWriter(new File("output.txt"))) {
+        //try (PrintWriter out = new PrintWriter(new File("output.txt"))) {
+        try (PrintWriter out = new PrintWriter(new File("outputTmp.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 line = myTrim(line);
