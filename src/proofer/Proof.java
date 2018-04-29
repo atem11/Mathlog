@@ -4,6 +4,7 @@ import operations.*;
 import proofer.Lems.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class Proof {
         return true;
     }
 
-    public List<Expression> gen(Map<Variable, Boolean> var, Expression exp) {
+    private List<Expression> gen(Map<Variable, Boolean> var, Expression exp) {
         List<Expression> proof = new ArrayList<>();
 
         if (exp instanceof Conjunction) {
@@ -99,18 +100,49 @@ public class Proof {
     }
 
     private List<Expression> merge(List<Expression> varA, List<Expression> a, List<Expression> varB,  List<Expression> b) {
-        List<Expression> deductA = Deductor.makeProofToRight(varA.get(varA.size() - 1), a, varA);
-        List<Expression> deductB = Deductor.makeProofToRight(varB.get(varB.size() - 1), b, varB);
+        List<Expression> hyp = new ArrayList<>();
+        for (int i = 0; i < varA.size() - 1; ++i) {
+            hyp.add(varA.get(i));
+        }
+        Expression F = a.get(a.size() - 1);
+        Expression B = varA.get(varA.size() - 1);
+        List<Expression> deductA = Deductor.makeProofToRight(varA.get(varA.size() - 1), a, hyp);
+        List<Expression> deductB = Deductor.makeProofToRight(varB.get(varB.size() - 1), b, hyp);
         List<Expression> ans = deductA;
         ans.addAll(deductB);
-
+        ans.addAll(Merge.proof(F, B));
         return ans;
+    }
+
+    private List<Expression> reqGen(int ind, Map<Variable, Boolean> vals) {
+        if (ind == vars.size()) {
+            return gen(vals, expression);
+        } else {
+            List<Expression> var = new ArrayList<>();
+            List<Expression> varB = new ArrayList<>();
+            for (int i = 0; i < ind; ++i) {
+                Expression v = vars.get(i);
+                if (vals.get(v)) {
+                    var.add(v);
+                } else {
+                    var.add(new Negation(v));
+                }
+            }
+            Expression v = vars.get(ind);
+            var.add(v);
+            varB.add(new Negation(v));
+            vals.put((Variable) v, true);
+            List<Expression> proofA = reqGen(ind + 1, vals);
+            vals.remove(v, true);
+            vals.put((Variable) v, false);
+            List<Expression> proofB = reqGen(ind + 1, vals);
+            return merge(var, proofA, varB, proofB);
+        }
     }
 
     public List<Expression> genProof() {
         proof = new ArrayList<>();
-
-
+        proof = reqGen(0, new HashMap<>());
         return proof;
     }
 }

@@ -28,8 +28,8 @@ public class Deductor {
             }
             if (hyp.contains(line) || AxiomChecker.checkAll(line) != 0) {
                 ans.add(line);
-                ans.add(new Implication(alpha, line));
                 ans.add(new Implication(line, new Implication(alpha, line)));
+                ans.add(new Implication(alpha, line));
             } else if (line.equals(alpha)) {
                 Expression e5 = new Implication(line, line);
                 Expression e1 = new Implication(line, e5);

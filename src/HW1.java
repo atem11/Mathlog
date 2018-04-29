@@ -113,6 +113,7 @@ public class HW1 {
 
                     if (first == null || second == null) {
                         res.append("(Не доказано)");
+                        System.err.println("LUUUUUUL");
                     } else {
                         res.append("(M.P. ").append(second).append(", ").append(first).append(")");
                     }

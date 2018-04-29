@@ -87,12 +87,19 @@ public class HW3 {
                 out.println(frstLine);
 
                 Proof proof = new Proof(variables, expression);
+                List<Expression> ans = proof.genProof();
+                for (int i = 0; i < hypotises.size(); ++i) {
+                    ans = Deductor.makeProofToLeft(ans);
+                }
+
+                /*/////TEST////
                 Map<Variable, Boolean> tmp = new HashMap<>();
                 List<Expression> tmp1 = new ArrayList<>();
-                tmp1.add(new Negation(new Variable("A")));
+                //tmp1.add(new Negation(new Variable("A")));
                 tmp.put(new Variable("A"), false);
                 List<Expression> ans = Deductor.makeProofToRight(new Negation(new Variable("A")), proof.gen(tmp, expression), tmp1);
                 //List<Expression> ans = proof.gen(tmp, expression);
+                ////////////*/
                 for (Expression l : ans) {
                     out.println(l);
                 }
