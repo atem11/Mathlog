@@ -1,6 +1,6 @@
 SOURCES = $(shell find src -type f -name "*.java")
 CLASSES = $(patsubst src/%.java,out/%.class,$(SOURCES))
-MAINCLASS = HW3
+MAINCLASS = HW4
 
 all: $(CLASSES)
 

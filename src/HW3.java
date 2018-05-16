@@ -1,12 +1,9 @@
-import axioms.AxiomChecker;
 import operations.Expression;
 import operations.Implication;
-import operations.Negation;
 import operations.Variable;
 import parser.Lexer;
 import parser.Parser;
 import proofer.Deductor;
-import proofer.Lems.*;
 import proofer.Proof;
 import substitutioner.Finder;
 
