@@ -1,7 +1,5 @@
 package grid;
 
-import com.sun.xml.internal.bind.v2.TODO;
-
 import java.util.*;
 
 public class Graph {
@@ -10,7 +8,7 @@ public class Graph {
     private Table eq;
     private Table plus;
     private Table mull;
-    private Table next;
+    private Table impl;
 
     public Graph(int sz) {
         tree = new ArrayList<>();
@@ -21,7 +19,7 @@ public class Graph {
         eq = new Table(sz);
         plus = new Table(sz);
         mull = new Table(sz);
-        next = new Table(sz);
+        impl = new Table(sz);
     }
 
     public void add_edge(int v, int to) {
@@ -42,10 +40,10 @@ public class Graph {
     }
 
     public Table get_equals() {
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; i++) {
             Deque<Integer> q = new ArrayDeque<>();
             List<Boolean> used = new ArrayList<>();
-            for (int j = 0; j < size; ++j) {
+            for (int j = 0; j < size; j++) {
                 used.add(false);
             }
 
@@ -70,12 +68,12 @@ public class Graph {
     }
 
     public Table get_plus() {
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; i++) {
             plus.set(i, i, i);
-            for (int j = i + 1; j < size; ++j) {
+            for (int j = i + 1; j < size; j++) {
                 int min = -1;
                 List<Integer> fail = new ArrayList<>();
-                for (int tmp = 0; tmp < size; ++tmp) {
+                for (int tmp = 0; tmp < size; tmp++) {
                     if (tmp == i || eq.get(tmp, i) == 1) {
                         if (tmp == j || eq.get(tmp, j) == 1) {
                             if (min == -1) {
@@ -106,12 +104,12 @@ public class Graph {
     }
 
     public Table get_mull() {
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; i++) {
             mull.set(i, i, i);
-            for (int j = i + 1; j < size; ++j) {
+            for (int j = i + 1; j < size; j++) {
                 int max = -1;
                 List<Integer> fail = new ArrayList<>();
-                for (int tmp = 0; tmp < size; ++tmp) {
+                for (int tmp = 0; tmp < size; tmp++) {
                     if (tmp == i || eq.get(tmp, i) == -1) {
                         if (tmp == j || eq.get(tmp, j) == -1) {
                             if (max == -1) {
@@ -141,4 +139,70 @@ public class Graph {
         return mull;
     }
 
+    public Table get_impl() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                int max = -1;
+                List<Integer> fail = new ArrayList<>();
+                for (int tmp = 0; tmp < size; tmp++) {
+                    int mul = mull.get(tmp, i);
+                    if (eq.get(mul, j) <= 0) {
+                        if (max == -1) {
+                            max = tmp;
+                        } else if (eq.get(max, tmp) == -1) {
+                            max = tmp;
+                        } else if (eq.get(max, tmp) == 1337) {
+                            fail.add(tmp);
+                        }
+                    }
+                }
+                if (max != -1) {
+                    impl.set(i, j, max);
+                    for (int _i : fail) {
+                        if (eq.get(_i, max) == 1337) {
+                            impl.set(i, j, 1337);
+                            break;
+                        }
+                    }
+                } else {
+                    impl.set(i, j, 1337);
+                }
+            }
+        }
+
+        return impl;
+    }
+
+    public int get_zero() {
+        for (int i = 0; i < size; ++i) {
+             boolean f = true;
+             for (int j = 0; j < size; ++j) {
+                 if (eq.get(i, j) == 1337 || eq.get(i, j) == 1) {
+                     f = false;
+                     break;
+                 }
+             }
+             if (f) {
+                 return i;
+             }
+        }
+        return -1;
+    }
+
+    public int get_one() {
+        for (int i = 0; i < size; ++i) {
+            boolean f = true;
+            for (int j = 0; j < size; ++j) {
+                if (eq.get(i, j) == 1337 || eq.get(i, j) == -1) {
+                    f = false;
+                    break;
+                }
+            }
+            if (f) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
 }

@@ -30,12 +30,13 @@ public class HW4 {
         try (PrintWriter out = new PrintWriter(new File("output.txt"))) {
             Table _test = graph.get_equals();
             boolean FAIL = false;
+
             Table plus = graph.get_plus();
-            for (int i = 0; i < N; ++i) {
+            for (int i = 0; i < N; i++) {
                 if (FAIL) {
                     break;
                 }
-                for (int j = i + 1; j < N; ++j) {
+                for (int j = i + 1; j < N; j++) {
                     if (plus.get(i, j) == FAIL_CONST) {
                         out.println("Операция '+' не определена: " + (i + 1) + "+" + (j + 1));
                         FAIL = true;
@@ -43,12 +44,13 @@ public class HW4 {
                     }
                 }
             }
+
             Table mull = graph.get_mull();
-            for (int i = 0; i < N; ++i) {
+            for (int i = 0; i < N; i++) {
                 if (FAIL) {
                     break;
                 }
-                for (int j = i + 1; j < N; ++j) {
+                for (int j = i + 1; j < N; j++) {
                     if (mull.get(i, j) == FAIL_CONST) {
                         out.println("Операция '*' не определена: " + (i + 1) + "*" + (j + 1));
                         FAIL = true;
@@ -57,24 +59,74 @@ public class HW4 {
                 }
             }
 
+            for (int i = 0; i < N; i++) {
+                if (FAIL) {
+                    break;
+                }
+                for (int j = 0; j < N; j++) {
+                    if (FAIL) {
+                        break;
+                    }
+                    for (int k = 0; k < N; k++) {
+                        if (mull.get(i, plus.get(j, k)) != plus.get(mull.get(i, j), mull.get(i, k))) {
+                            out.println("Нарушается дистрибутивность: " + (i + 1) + "*(" + (j + 1) + "+" + (k + 1) + ")");
+                            FAIL = true;
+                        }
+                    }
+                }
+            }
+
+            Table impl = graph.get_impl();
+            for (int i = 0; i < N; i++) {
+                if (FAIL) {
+                    break;
+                }
+                for (int j = i + 1; j < N; j++) {
+                    if (impl.get(i, j) == FAIL_CONST) {
+                        out.println("Операция '->' не определена: " + (i + 1) + "->" + (j + 1));
+                        FAIL = true;
+                        break;
+                    }
+                }
+            }
+
+            int ZERO = graph.get_zero();
+            int ONE = graph.get_one();
+            for (int i = 0; i < N; i++) {
+                if (FAIL) {
+                    break;
+                }
+                if (plus.get(i, impl.get(i, ZERO)) != ONE) {
+                    out.println(impl.get(i, ZERO));
+                    out.println(plus.get(i, impl.get(i, ZERO)));
+                    out.println("Не булева алгебра: " + (i + 1) + "+~" + (i + 1));
+                    FAIL = true;
+                    break;
+                }
+            }
+
+            if (!FAIL) {
+                out.println("Булева алгебра");
+            }
+
             //TEEEEEST///////////////////////////////////////////**/
-            _test = mull;                                       /**/
-            out.print("  ");                                    /**/
-            for (int i = 0; i < N; ++i) {                       /**/
-                out.print(i + " ");                             /**/
-            }                                                   /**/
-            out.println();                                      /**/
-            for (int i = 0; i < N; ++i) {                       /**/
-                out.print(i + ":");                             /**/
-                for (int j = 0; j < N; ++j) {                   /**/
-                    if (_test.get(i, j) == FAIL_CONST) {        /**/
-                        out.print("@ ");                        /**/
-                    } else {                                    /**/
-                        out.print(_test.get(i, j) + " ");       /**/
-                    }                                           /**/
-                }                                               /**/
-                out.println();                                  /**/
-            }                                                   /**/
+//            _test = plus;
+//            out.print("  ");                                    /**/
+//            for (int i = 0; i < N; i++) {                       /**/
+//                out.print(i + " ");                             /**/
+//            }                                                   /**/
+//            out.println();                                      /**/
+//            for (int i = 0; i < N; i++) {                       /**/
+//                out.print(i + ":");                             /**/
+//                for (int j = 0; j < N; j++) {                   /**/
+//                    if (_test.get(i, j) == FAIL_CONST) {        /**/
+//                        out.print("@ ");                        /**/
+//                    } else {                                    /**/
+//                        out.print(_test.get(i, j) + " ");       /**/
+//                    }                                           /**/
+//                }                                               /**/
+//                out.println();                                  /**/
+//            }                                                   /**/
             /////////////////////////////////////////////////////**/
         } catch (IOException ignored) {
         }
