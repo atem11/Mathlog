@@ -18,7 +18,7 @@ public class HW4 {
         BufferedReader reader = Files.newBufferedReader(pathToInputFile);
         int N = Integer.parseInt(reader.readLine());
         Graph graph = new Graph(N);
-        for (int i = 0 ; i < N; ++i) {
+        for (int i = 0; i < N; ++i) {
             String line = reader.readLine();
             String[] ver = line.split(" ");
             for (String aVer : ver) {
@@ -75,8 +75,10 @@ public class HW4 {
                     }
                 }
             }
-
-            Table impl = graph.get_impl();
+            Table impl = new Table(1);
+            if (!FAIL) {
+                impl = graph.get_impl();
+            }
             for (int i = 0; i < N; i++) {
                 if (FAIL) {
                     break;
@@ -90,18 +92,18 @@ public class HW4 {
                 }
             }
 
-            int ZERO = graph.get_zero();
-            int ONE = graph.get_one();
-            for (int i = 0; i < N; i++) {
-                if (FAIL) {
-                    break;
-                }
-                if (plus.get(i, impl.get(i, ZERO)) != ONE) {
-                    out.println(impl.get(i, ZERO));
-                    out.println(plus.get(i, impl.get(i, ZERO)));
-                    out.println("Не булева алгебра: " + (i + 1) + "+~" + (i + 1));
-                    FAIL = true;
-                    break;
+            if (!FAIL) {
+                int ZERO = graph.get_zero();
+                int ONE = graph.get_one();
+                for (int i = 0; i < N; i++) {
+                    if (FAIL) {
+                        break;
+                    }
+                    if (plus.get(i, impl.get(i, ZERO)) != ONE) {
+                        out.println("Не булева алгебра: " + (i + 1) + "+~" + (i + 1));
+                        FAIL = true;
+                        break;
+                    }
                 }
             }
 

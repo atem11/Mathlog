@@ -6,7 +6,6 @@ import parser.Parser;
 import proofer.Deductor;
 import proofer.Proof;
 import substitutioner.Finder;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -29,10 +28,6 @@ public class HW3 {
             }
         }
         return res.toString();
-    }
-
-    private static List<Expression> genTable() {
-        return null;
     }
 
     public static void main(String[] args) throws IOException {

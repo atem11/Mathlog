@@ -1,6 +1,6 @@
 SOURCES = $(shell find src -type f -name "*.java")
 CLASSES = $(patsubst src/%.java,out/%.class,$(SOURCES))
-MAINCLASS = HW4
+MAINCLASS = HW6
 
 all: $(CLASSES)
 
@@ -8,7 +8,7 @@ run:
 	java -classpath out $(MAINCLASS)
 
 pack:
-	zip $(MAINCLASS).zip -r Makefile src
+	zip HW6.zip -r Makefile src
 
 clean:
 	rm -rf out
